@@ -14,7 +14,16 @@ const gqlClient = new ApolloClient({
 export const App = () => {
   return (
     <ApolloProvider client={gqlClient}>
-      <Home />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Home />
+      </div>
     </ApolloProvider>
   );
 };
