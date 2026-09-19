@@ -7,9 +7,9 @@ const Stack = styled.div`
   gap: 0.5rem;
 `;
 
-const Frame = styled.label<{ $checked: boolean }>`
-  height: 20px;
-  width: 40px;
+const Frame = styled.div<{ $checked: boolean }>`
+  height: 30px;
+  width: 60px;
   outline: 1px solid;
   border-radius: 1rem;
   position: relative;
@@ -25,14 +25,14 @@ const StyledInput = styled.input.attrs({ type: "checkbox" })`
 `;
 
 const Knob = styled.span<{ $checked: boolean }>`
-  height: 16px;
-  width: 16px;
+  height: 26px;
+  width: 26px;
   outline: 1px solid;
   position: absolute;
   border-radius: 1rem;
   transform: ${(props) =>
     props.$checked
-      ? "translateX(22px) translateY(2px)"
+      ? "translateX(32px) translateY(2px)"
       : "translateX(2px) translateY(2px)"};
   transition: transform 250ms;
   background-color: white;
