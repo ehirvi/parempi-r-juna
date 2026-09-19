@@ -6,7 +6,7 @@ type TCheckBoxProps = {
 
 export const CheckBox = ({ checked, label, handleChecked }: TCheckBoxProps) => {
   return (
-    <>
+    <div>
       <input
         type="checkbox"
         id="checkbox"
@@ -14,6 +14,6 @@ export const CheckBox = ({ checked, label, handleChecked }: TCheckBoxProps) => {
         onChange={handleChecked}
       />
       <label htmlFor="checkbox">{label}</label>
-    </>
+    </div>
   );
 };

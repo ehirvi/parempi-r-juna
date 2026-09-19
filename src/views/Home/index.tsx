@@ -4,14 +4,9 @@ import {
   type TTrainsQueryRow,
 } from "../../graphql/useGetTrains/useGetTrains";
 import { CheckBox } from "../../components/CheckBox";
-
-const getFirstStationName = (train: TTrainsQueryRow) => {
-  return train.timeTableRows.at(0)?.station.name.split(" ").at(0);
-};
-
-const getLastStationName = (train: TTrainsQueryRow) => {
-  return train.timeTableRows.at(-1)?.station.name.split(" ").at(0);
-};
+import { getLastStationName } from "../../utils/lib";
+import { TrainList } from "../../components/TrainList";
+import styled from "styled-components";
 
 const toFilteredByLastStation = (
   trains: TTrainsQueryRow[],
@@ -37,17 +32,17 @@ const toSortedByScheduledTime = (trains: TTrainsQueryRow[]) => {
   });
 };
 
-const toLocalTime = (row: TTrainsQueryRow) => {
-  const scheduledTime = row.timeTableRows[0].scheduledTime;
-  return new Date(scheduledTime).toLocaleTimeString(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
-
 const toISODate = (date: Date) => {
   return date.toISOString().split("T").at(0);
 };
+
+const StyledHome = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+`;
 
 export const Home = () => {
   const [date] = useState(toISODate(new Date(Date.now())));
@@ -69,23 +64,18 @@ export const Home = () => {
     return <p>no data</p>;
   }
 
-  const trainsFiltered = toFilteredByLastStation(trains, showOnlyFilteredRows);
-  const trainsSorted = toSortedByScheduledTime(trainsFiltered);
+  const trainsToShow = toSortedByScheduledTime(
+    toFilteredByLastStation(trains, showOnlyFilteredRows),
+  );
 
   return (
-    <>
+    <StyledHome>
       <CheckBox
         checked={showOnlyFilteredRows}
         handleChecked={handleCheckboxChange}
         label="Näytä vain Riihimäelle päättyvät R-junat"
       />
-      <div>
-        {trainsSorted.map((train, index) => (
-          <p key={index}>
-            {`${getFirstStationName(train)} ${toLocalTime(train)} ${getLastStationName(train)}`}
-          </p>
-        ))}
-      </div>
-    </>
+      <TrainList trains={trainsToShow} />
+    </StyledHome>
   );
 };
