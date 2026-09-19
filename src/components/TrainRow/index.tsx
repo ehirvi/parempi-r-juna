@@ -14,7 +14,7 @@ const StyledRow = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 0;
   border-bottom: 1px solid;
 `;
 

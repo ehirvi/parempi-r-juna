@@ -49,21 +49,11 @@ export const Home = () => {
   const [date, setDate] = useState(toISODate(new Date(Date.now())));
   const [showOnlyFilteredRows, setShowOnlyFilteredRows] = useState(true);
 
-  const { trains, loading, error } = useGetTrains({ date });
-
-  const noDataAvailable = trains.length === 0 || error;
+  const { trains, loading } = useGetTrains({ date });
 
   const handleCheckboxChange = () => {
     setShowOnlyFilteredRows((v) => !v);
   };
-
-  if (loading) {
-    return <p>loading...</p>;
-  }
-
-  if (noDataAvailable) {
-    return <p>no data</p>;
-  }
 
   const trainsToShow = toSortedByScheduledTime(
     toFilteredByLastStation(trains, showOnlyFilteredRows),
@@ -77,7 +67,7 @@ export const Home = () => {
         handleChecked={handleCheckboxChange}
         label="Näytä vain Riihimäelle päättyvät R-junat"
       />
-      <TrainList trains={trainsToShow} />
+      <TrainList trains={trainsToShow} loading={loading} />
     </StyledHome>
   );
 };

@@ -8,7 +8,8 @@ const StyledList = styled.div`
   align-items: center;
   border: 1px solid;
   border-radius: 1rem;
-  height: 50dvh;
+  width: 90%;
+  height: 60dvh;
   overflow: scroll;
 
   :last-child {
@@ -16,13 +17,26 @@ const StyledList = styled.div`
   }
 `;
 
+const StyledUnavailableText = styled.div`
+  padding: 1rem;
+`;
+
 type TTrainListProps = {
   trains: TTrainsQueryRow[];
+  loading: boolean;
 };
 
-export const TrainList = ({ trains }: TTrainListProps) => {
+export const TrainList = ({ trains, loading }: TTrainListProps) => {
+  const noDataAvailable = !loading && trains.length === 0;
+
   return (
     <StyledList>
+      {loading && (
+        <StyledUnavailableText>Ladataan tietoja...</StyledUnavailableText>
+      )}
+      {noDataAvailable && (
+        <StyledUnavailableText>Ei tietoja saatavilla</StyledUnavailableText>
+      )}
       {trains.map((train) => (
         <>
           <TrainRow key={train.trainNumber} train={train} />
