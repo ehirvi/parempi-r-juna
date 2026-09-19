@@ -20,7 +20,7 @@ type GetTrainsQuery = {
 export type TTrainsQueryRow = GetTrainsQuery["trainsByDepartureDate"][number];
 
 type GetTrainsQueryVariables = {
-  date: string;
+  date: string | undefined;
 };
 
 const query: TypedDocumentNode<GetTrainsQuery, GetTrainsQueryVariables> = gql`
@@ -53,12 +53,13 @@ const query: TypedDocumentNode<GetTrainsQuery, GetTrainsQueryVariables> = gql`
 `;
 
 type TUseGetTrainsParams = {
-  date: string;
+  date: string | undefined;
 };
 
 export const useGetTrains = ({ date }: TUseGetTrainsParams) => {
   const { loading, error, data } = useQuery(query, {
     variables: { date },
+    skip: !date,
   });
 
   const trains = data?.trainsByDepartureDate ?? [];

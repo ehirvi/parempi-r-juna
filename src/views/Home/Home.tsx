@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   useGetTrains,
   type TTrainsQueryRow,
@@ -34,8 +35,14 @@ const toLocalTime = (row: TTrainsQueryRow) => {
   });
 };
 
+const toISODate = (date: Date) => {
+  return date.toISOString().split("T").at(0);
+};
+
 export const Home = () => {
-  const { trains, loading, error } = useGetTrains({ date: "2026-08-17" });
+  const [date] = useState(toISODate(new Date(Date.now())));
+
+  const { trains, loading, error } = useGetTrains({ date });
 
   const noDataAvailable = trains.length === 0 || error;
 
