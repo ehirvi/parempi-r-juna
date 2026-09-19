@@ -3,11 +3,11 @@ import {
   useGetTrains,
   type TTrainsQueryRow,
 } from "../../graphql/useGetTrains/useGetTrains";
-import { CheckBox } from "../../components/CheckBox";
 import { getLastStationName, getTodayDate } from "../../utils/lib";
 import { TrainList } from "../../components/TrainList";
 import styled from "styled-components";
 import { DatePicker } from "../../components/DatePicker";
+import { Switch } from "../../components/Switch";
 
 const toFilteredByLastStation = (
   trains: TTrainsQueryRow[],
@@ -59,7 +59,7 @@ export const Home = () => {
   return (
     <StyledHome>
       <DatePicker date={date} setDate={setDate} />
-      <CheckBox
+      <Switch
         checked={showOnlyFilteredRows}
         handleChecked={handleCheckboxChange}
         label="Näytä vain Riihimäelle päättyvät R-junat"

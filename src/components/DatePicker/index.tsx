@@ -25,7 +25,7 @@ const StyledInput = styled.input.attrs({ type: "text", readOnly: true })`
 `;
 
 const StyledButton = styled.button`
-  border: 1px solid;
+  border: 1px solid black;
   color: black;
   border-radius: 0.5rem;
   background-color: white;
@@ -34,7 +34,7 @@ const StyledButton = styled.button`
 
   &:active {
     color: white;
-    background-color: #69c46b;
+    background-color: #6fa4e4;
   }
 `;
 
