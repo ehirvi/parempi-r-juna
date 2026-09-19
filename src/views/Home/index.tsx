@@ -4,7 +4,7 @@ import {
   type TTrainsQueryRow,
 } from "../../graphql/useGetTrains/useGetTrains";
 import { CheckBox } from "../../components/CheckBox";
-import { getLastStationName } from "../../utils/lib";
+import { getLastStationName, getTodayDate } from "../../utils/lib";
 import { TrainList } from "../../components/TrainList";
 import styled from "styled-components";
 import { DatePicker } from "../../components/DatePicker";
@@ -33,20 +33,17 @@ const toSortedByScheduledTime = (trains: TTrainsQueryRow[]) => {
   });
 };
 
-const toISODate = (date: Date) => {
-  return date.toISOString().split("T")[0];
-};
-
 const StyledHome = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  font-size: large;
 `;
 
 export const Home = () => {
-  const [date, setDate] = useState(toISODate(new Date(Date.now())));
+  const [date, setDate] = useState(getTodayDate());
   const [showOnlyFilteredRows, setShowOnlyFilteredRows] = useState(true);
 
   const { trains, loading } = useGetTrains({ date });

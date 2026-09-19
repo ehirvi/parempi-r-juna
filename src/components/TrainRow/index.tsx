@@ -4,7 +4,7 @@ import { getFirstStationName, getLastStationName } from "../../utils/lib";
 
 const toLocalTime = (row: TTrainsQueryRow) => {
   const scheduledTime = row.timeTableRows[0].scheduledTime;
-  return new Date(scheduledTime).toLocaleTimeString(undefined, {
+  return new Date(scheduledTime).toLocaleTimeString("fi", {
     hour: "2-digit",
     minute: "2-digit",
   });
