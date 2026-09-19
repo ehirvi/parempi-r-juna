@@ -7,6 +7,7 @@ import { CheckBox } from "../../components/CheckBox";
 import { getLastStationName } from "../../utils/lib";
 import { TrainList } from "../../components/TrainList";
 import styled from "styled-components";
+import { DatePicker } from "../../components/DatePicker";
 
 const toFilteredByLastStation = (
   trains: TTrainsQueryRow[],
@@ -33,7 +34,7 @@ const toSortedByScheduledTime = (trains: TTrainsQueryRow[]) => {
 };
 
 const toISODate = (date: Date) => {
-  return date.toISOString().split("T").at(0);
+  return date.toISOString().split("T")[0];
 };
 
 const StyledHome = styled.div`
@@ -45,7 +46,7 @@ const StyledHome = styled.div`
 `;
 
 export const Home = () => {
-  const [date] = useState(toISODate(new Date(Date.now())));
+  const [date, setDate] = useState(toISODate(new Date(Date.now())));
   const [showOnlyFilteredRows, setShowOnlyFilteredRows] = useState(true);
 
   const { trains, loading, error } = useGetTrains({ date });
@@ -70,6 +71,7 @@ export const Home = () => {
 
   return (
     <StyledHome>
+      <DatePicker date={date} setDate={setDate} />
       <CheckBox
         checked={showOnlyFilteredRows}
         handleChecked={handleCheckboxChange}
