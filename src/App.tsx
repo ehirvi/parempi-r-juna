@@ -2,7 +2,7 @@ import { HttpLink } from "@apollo/client";
 import { InMemoryCache } from "@apollo/client";
 import { ApolloClient } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
-import { Home } from "./views/Home/Home";
+import { Home } from "./views/Home";
 
 const gqlClient = new ApolloClient({
   link: new HttpLink({
