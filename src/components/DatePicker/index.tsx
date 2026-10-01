@@ -11,23 +11,25 @@ const StyledDatePicker = styled.div`
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  border: 1px solid;
   border-radius: 0.5rem;
+  box-shadow: 0px 0px 5px black;
   padding: 0.5rem;
 `;
 
 const StyledInput = styled.input.attrs({ type: "text", readOnly: true })`
-  border: 1px solid;
+  border: none;
   border-radius: 0.5rem;
+  box-shadow: inset 0px 0px 4px black;
   padding: 0.2rem;
   font-size: medium;
   text-align: center;
 `;
 
 const StyledButton = styled.button`
-  border: 1px solid black;
+  border: none;
   color: black;
   border-radius: 0.5rem;
+  box-shadow: 0px 0px 5px black;
   background-color: white;
   font-size: larger;
   transition: 125ms;

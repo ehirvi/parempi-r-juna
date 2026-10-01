@@ -10,8 +10,8 @@ const Stack = styled.div`
 const Frame = styled.div<{ $checked: boolean }>`
   height: 30px;
   width: 60px;
-  outline: 1px solid;
   border-radius: 1rem;
+  box-shadow: inset 0px 0px 5px black;
   position: relative;
   background-color: ${(props) => (props.$checked ? "#77e079" : "#e55e5e")};
 `;
@@ -27,7 +27,6 @@ const StyledInput = styled.input.attrs({ type: "checkbox" })`
 const Knob = styled.span<{ $checked: boolean }>`
   height: 26px;
   width: 26px;
-  outline: 1px solid;
   position: absolute;
   border-radius: 1rem;
   transform: ${(props) =>
@@ -36,7 +35,7 @@ const Knob = styled.span<{ $checked: boolean }>`
       : "translateX(2px) translateY(2px)"};
   transition: transform 250ms;
   background-color: white;
-  box-shadow: 0px 0px 5px 1px;
+  box-shadow: 0px 0px 5px black;
 `;
 
 type TSwitchProps = {
