@@ -6,7 +6,7 @@ const StyledList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   box-shadow: inset 0px 0px 10px black;
   width: 90%;
   height: 60dvh;
