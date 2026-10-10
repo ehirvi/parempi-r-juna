@@ -8,8 +8,7 @@ type TUseGetTrainsParams = {
 export const useGetTrains = ({ date }: TUseGetTrainsParams) => {
   const { loading, error, data } = useQuery(GetTrainsQuery, {
     variables: { date },
-    // skip: !date,
-    skip: true,
+    skip: !date,
   });
 
   const trains = data?.trainsByDepartureDate ?? [];
