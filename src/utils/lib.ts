@@ -1,4 +1,12 @@
-import type { TTrainsQueryRow } from "../graphql/useGetTrains/useGetTrains";
+import type { TTrainsQueryRow } from "../graphql/GetTrainsQuery";
+
+export const getFirstStationShortCode = (train: TTrainsQueryRow) => {
+  return train.timeTableRows.at(0)?.station.shortCode;
+};
+
+export const getLastStationShortCode = (train: TTrainsQueryRow) => {
+  return train.timeTableRows.at(-1)?.station.shortCode;
+};
 
 export const getFirstStationName = (train: TTrainsQueryRow) => {
   return train.timeTableRows.at(0)?.station.name.split(" ").at(0);
@@ -6,6 +14,14 @@ export const getFirstStationName = (train: TTrainsQueryRow) => {
 
 export const getLastStationName = (train: TTrainsQueryRow) => {
   return train.timeTableRows.at(-1)?.station.name.split(" ").at(0);
+};
+
+export const toLocalTime = (row: TTrainsQueryRow) => {
+  const scheduledTime = row.timeTableRows[0].scheduledTime;
+  return new Date(scheduledTime).toLocaleTimeString("fi", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 };
 
 export const toISODate = (date: Date) => {

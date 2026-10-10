@@ -1,14 +1,10 @@
 import styled from "styled-components";
-import type { TTrainsQueryRow } from "../../graphql/useGetTrains/useGetTrains";
-import { getFirstStationName, getLastStationName } from "../../utils/lib";
-
-const toLocalTime = (row: TTrainsQueryRow) => {
-  const scheduledTime = row.timeTableRows[0].scheduledTime;
-  return new Date(scheduledTime).toLocaleTimeString("fi", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
+import type { TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
+import {
+  getFirstStationName,
+  getLastStationName,
+  toLocalTime,
+} from "../../utils/lib";
 
 const StyledRow = styled.div`
   display: flex;

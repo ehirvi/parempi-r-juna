@@ -1,20 +1,36 @@
 import { useState } from "react";
+import { type TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
 import {
-  useGetTrains,
-  type TTrainsQueryRow,
-} from "../../graphql/useGetTrains/useGetTrains";
-import { getLastStationName, getTodayDate } from "../../utils/lib";
+  // getFirstStationShortCode,
+  getLastStationShortCode,
+  getTodayDate,
+} from "../../utils/lib";
 import { TrainList } from "../../components/TrainList";
 import styled from "styled-components";
 import { DatePicker } from "../../components/DatePicker";
 import { Switch } from "../../components/Switch";
+import { ETrainStation } from "../../utils/types";
+import { useGetTrains } from "../../hooks/useGetTrains";
+
+// const toFilteredByFirstStation = (
+//   trains: TTrainsQueryRow[],
+//   filter: boolean,
+// ) => {
+//   return filter
+//     ? trains.filter(
+//         (train) => getFirstStationShortCode(train) === ETrainStation.RIIHIMAKI,
+//       )
+//     : trains;
+// };
 
 const toFilteredByLastStation = (
   trains: TTrainsQueryRow[],
   filter: boolean,
 ) => {
   return filter
-    ? trains.filter((train) => getLastStationName(train) === "Riihimäki")
+    ? trains.filter(
+        (train) => getLastStationShortCode(train) === ETrainStation.RIIHIMAKI,
+      )
     : trains;
 };
 

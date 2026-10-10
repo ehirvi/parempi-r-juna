@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import type { TTrainsQueryRow } from "../../graphql/useGetTrains/useGetTrains";
+import type { TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
 import { TrainRow } from "../TrainRow";
 
 const StyledList = styled.div`
