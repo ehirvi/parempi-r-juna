@@ -6,7 +6,11 @@ import {
   toLocalTime,
 } from "../../utils/lib";
 import { ETrainStation } from "../../utils/types";
-import { EDestinationType, type TDestinationFilterFunction, type TDisplayTextFunction } from "./types";
+import {
+  EDestinationType,
+  type TDestinationFilterFunction,
+  type TDisplayTextFunction,
+} from "./types";
 
 export const toFilteredByLastStation = (
   trains: TTrainsQueryRow[],
@@ -23,9 +27,10 @@ export const getDisplayTextForDeparture = (train: TTrainsQueryRow) => {
   return `${getFirstStationName(train)} - ${toLocalTime(train)} - ${getLastStationName(train)}`;
 };
 
-export const destinationTypeByStation: Record<ETrainStation, string> = {
-  [ETrainStation.RIIHIMAKI]: EDestinationType.DEPARTURE,
-};
+export const destinationTypeByStation: Record<ETrainStation, EDestinationType> =
+  {
+    [ETrainStation.RIIHIMAKI]: EDestinationType.DEPARTURE,
+  };
 
 export const destinationFilterFunctionByStation: Record<
   ETrainStation,

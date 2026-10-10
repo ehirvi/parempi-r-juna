@@ -20,13 +20,14 @@ export type TTrainsQueryRow = GetTrainsQuery["trainsByDepartureDate"][number];
 
 type GetTrainsQueryVariables = {
   date: string | undefined;
+  type: string;
 };
 
 export const GetTrainsQuery: TypedDocumentNode<
   GetTrainsQuery,
   GetTrainsQueryVariables
 > = gql`
-  query GetTrains($date: Date!) {
+  query GetTrains($date: Date!, $type: String!) {
     trainsByDepartureDate(
       departureDate: $date
       where: {
@@ -34,7 +35,7 @@ export const GetTrainsQuery: TypedDocumentNode<
         timeTableRows: {
           contains: {
             station: { shortCode: { equals: "HKI" } }
-            type: { equals: "DEPARTURE" }
+            type: { equals: $type }
           }
         }
       }

@@ -2,7 +2,7 @@ import type { TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
 
 export const EDestinationType = {
   DEPARTURE: "DEPARTURE",
-};
+} as const;
 
 export type EDestinationType =
   (typeof EDestinationType)[keyof typeof EDestinationType];

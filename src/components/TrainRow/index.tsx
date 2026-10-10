@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import type { TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
-import {
-  getFirstStationName,
-  getLastStationName,
-  toLocalTime,
-} from "../../utils/lib";
+import type { TDisplayTextFunction } from "../../hooks/useTrainDestinationConfig/types";
 
 const StyledRow = styled.div`
   display: flex;
@@ -16,10 +12,9 @@ const StyledRow = styled.div`
 
 type TTrainRowProps = {
   train: TTrainsQueryRow;
+  displayTextFn: TDisplayTextFunction;
 };
 
-export const TrainRow = ({ train }: TTrainRowProps) => {
-  return (
-    <StyledRow>{`${getFirstStationName(train)} - ${toLocalTime(train)} - ${getLastStationName(train)}`}</StyledRow>
-  );
+export const TrainRow = ({ train, displayTextFn }: TTrainRowProps) => {
+  return <StyledRow>{displayTextFn(train)}</StyledRow>;
 };
