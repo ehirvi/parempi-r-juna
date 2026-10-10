@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { type TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
-import {
-  // getFirstStationShortCode,
-  getTodayDate,
-} from "../../utils/lib";
+import { getTodayDate } from "../../utils/lib";
 import { TrainList } from "../../components/TrainList";
 import styled from "styled-components";
 import { DatePicker } from "../../components/DatePicker";
@@ -11,17 +8,8 @@ import { Switch } from "../../components/Switch";
 import { ETrainStation } from "../../utils/types";
 import { useGetTrains } from "../../hooks/useGetTrains";
 import { useTrainDestinationConfig } from "../../hooks/useTrainDestinationConfig";
-
-// const toFilteredByFirstStation = (
-//   trains: TTrainsQueryRow[],
-//   filter: boolean,
-// ) => {
-//   return filter
-//     ? trains.filter(
-//         (train) => getFirstStationShortCode(train) === ETrainStation.RIIHIMAKI,
-//       )
-//     : trains;
-// };
+import { DestinationSwitcher } from "../../components/DestinationSwitcher";
+import { EDestinationType } from "../../hooks/useTrainDestinationConfig/types";
 
 const toSortedByScheduledTime = (trains: TTrainsQueryRow[]) => {
   return trains.toSorted((prevTrain, nextTrain) => {
@@ -49,13 +37,16 @@ const StyledHome = styled.div`
 
 export const Home = () => {
   const [date, setDate] = useState(getTodayDate());
+  const [destination, setDestination] = useState<ETrainStation>(
+    ETrainStation.RIIHIMAKI,
+  );
   const [showOnlyFilteredRows, setShowOnlyFilteredRows] = useState(true);
 
   const destinationConfig = useTrainDestinationConfig({
-    destinationStation: ETrainStation.RIIHIMAKI,
+    destination,
   });
 
-  const { type, filterFn, displayTextFn } = destinationConfig;
+  const { type, destinationText, filterFn } = destinationConfig;
 
   const { trains, loading } = useGetTrains({
     date,
@@ -73,16 +64,20 @@ export const Home = () => {
   return (
     <StyledHome>
       <DatePicker date={date} setDate={setDate} />
+      <DestinationSwitcher
+        destination={destinationText}
+        setDestination={setDestination}
+      />
       <Switch
         checked={showOnlyFilteredRows}
         handleChecked={handleCheckboxChange}
-        label="Näytä vain Riihimäelle päättyvät R-junat"
+        label={
+          type === EDestinationType.DEPARTURE
+            ? "Näytä vain Riihimäelle päättyvät R-junat"
+            : "Näytä vain Riihimäeltä lähtevät R-junat"
+        }
       />
-      <TrainList
-        trains={trainsToShow}
-        loading={loading}
-        displayTextFn={displayTextFn}
-      />
+      <TrainList trains={trainsToShow} loading={loading} />
     </StyledHome>
   );
 };

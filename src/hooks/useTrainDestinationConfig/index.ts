@@ -1,24 +1,22 @@
 import { ETrainStation } from "../../utils/types";
 import {
   destinationFilterFunctionByStation,
-  destinationFilterNameByStation,
+  destinationNameByStation,
   destinationTypeByStation,
-  displayTextFunctionByStation,
 } from "./lib";
 import type { ITrainDestinationConfig } from "./types";
 
 type TTrainDestinationConfigProps = {
-  destinationStation: ETrainStation;
+  destination: ETrainStation;
 };
 
 export const useTrainDestinationConfig = ({
-  destinationStation,
+  destination,
 }: TTrainDestinationConfigProps) => {
   const config: ITrainDestinationConfig = {
-    type: destinationTypeByStation[destinationStation],
-    filterFn: destinationFilterFunctionByStation[destinationStation],
-    filterName: destinationFilterNameByStation[destinationStation],
-    displayTextFn: displayTextFunctionByStation[destinationStation],
+    type: destinationTypeByStation[destination],
+    destinationText: destinationNameByStation[destination],
+    filterFn: destinationFilterFunctionByStation[destination],
   };
 
   return config;
