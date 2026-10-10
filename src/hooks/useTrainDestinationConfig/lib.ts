@@ -1,18 +1,12 @@
 import type { TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
 import {
-  getFirstStationName,
-  getLastStationName,
+  getFirstStationShortCode,
   getLastStationShortCode,
-  toLocalTime,
 } from "../../utils/lib";
 import { ETrainStation } from "../../utils/types";
-import {
-  EDestinationType,
-  type TDestinationFilterFunction,
-  type TDisplayTextFunction,
-} from "./types";
+import { EDestinationType, type TDestinationFilterFunction } from "./types";
 
-export const toFilteredByLastStation = (
+const toFilteredByLastStation = (
   trains: TTrainsQueryRow[],
   filter: boolean,
 ) => {
@@ -23,13 +17,21 @@ export const toFilteredByLastStation = (
     : trains;
 };
 
-export const getDisplayTextForDeparture = (train: TTrainsQueryRow) => {
-  return `${getFirstStationName(train)} - ${toLocalTime(train)} - ${getLastStationName(train)}`;
+const toFilteredByFirstStation = (
+  trains: TTrainsQueryRow[],
+  filter: boolean,
+) => {
+  return filter
+    ? trains.filter(
+        (train) => getFirstStationShortCode(train) === ETrainStation.RIIHIMAKI,
+      )
+    : trains;
 };
 
 export const destinationTypeByStation: Record<ETrainStation, EDestinationType> =
   {
     [ETrainStation.RIIHIMAKI]: EDestinationType.DEPARTURE,
+    [ETrainStation.HELSINKI]: EDestinationType.ARRIVAL,
   };
 
 export const destinationFilterFunctionByStation: Record<
@@ -37,15 +39,10 @@ export const destinationFilterFunctionByStation: Record<
   TDestinationFilterFunction
 > = {
   [ETrainStation.RIIHIMAKI]: toFilteredByLastStation,
+  [ETrainStation.HELSINKI]: toFilteredByFirstStation,
 };
 
-export const destinationFilterNameByStation: Record<ETrainStation, string> = {
+export const destinationNameByStation: Record<ETrainStation, string> = {
   [ETrainStation.RIIHIMAKI]: "Helsinki - Riihimäki",
-};
-
-export const displayTextFunctionByStation: Record<
-  ETrainStation,
-  TDisplayTextFunction
-> = {
-  [ETrainStation.RIIHIMAKI]: getDisplayTextForDeparture,
+  [ETrainStation.HELSINKI]: "Riihimäki - Helsinki",
 };

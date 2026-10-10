@@ -1,5 +1,5 @@
 export const ETrainStation = {
-  // HELSINKI: "HKI",
+  HELSINKI: "HKI",
   RIIHIMAKI: "RI",
 } as const;
 
