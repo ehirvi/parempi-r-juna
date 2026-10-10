@@ -2,7 +2,6 @@ import { useState } from "react";
 import { type TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
 import {
   // getFirstStationShortCode,
-  getLastStationShortCode,
   getTodayDate,
 } from "../../utils/lib";
 import { TrainList } from "../../components/TrainList";
@@ -11,6 +10,7 @@ import { DatePicker } from "../../components/DatePicker";
 import { Switch } from "../../components/Switch";
 import { ETrainStation } from "../../utils/types";
 import { useGetTrains } from "../../hooks/useGetTrains";
+import { useTrainDestinationConfig } from "../../hooks/useTrainDestinationConfig";
 
 // const toFilteredByFirstStation = (
 //   trains: TTrainsQueryRow[],
@@ -22,17 +22,6 @@ import { useGetTrains } from "../../hooks/useGetTrains";
 //       )
 //     : trains;
 // };
-
-const toFilteredByLastStation = (
-  trains: TTrainsQueryRow[],
-  filter: boolean,
-) => {
-  return filter
-    ? trains.filter(
-        (train) => getLastStationShortCode(train) === ETrainStation.RIIHIMAKI,
-      )
-    : trains;
-};
 
 const toSortedByScheduledTime = (trains: TTrainsQueryRow[]) => {
   return trains.toSorted((prevTrain, nextTrain) => {
@@ -62,14 +51,23 @@ export const Home = () => {
   const [date, setDate] = useState(getTodayDate());
   const [showOnlyFilteredRows, setShowOnlyFilteredRows] = useState(true);
 
-  const { trains, loading } = useGetTrains({ date });
+  const destinationConfig = useTrainDestinationConfig({
+    destinationStation: ETrainStation.RIIHIMAKI,
+  });
+
+  const { type, filterFn, displayTextFn } = destinationConfig;
+
+  const { trains, loading } = useGetTrains({
+    date,
+    type,
+  });
 
   const handleCheckboxChange = () => {
     setShowOnlyFilteredRows((v) => !v);
   };
 
   const trainsToShow = toSortedByScheduledTime(
-    toFilteredByLastStation(trains, showOnlyFilteredRows),
+    filterFn(trains, showOnlyFilteredRows),
   );
 
   return (
@@ -80,7 +78,11 @@ export const Home = () => {
         handleChecked={handleCheckboxChange}
         label="Näytä vain Riihimäelle päättyvät R-junat"
       />
-      <TrainList trains={trainsToShow} loading={loading} />
+      <TrainList
+        trains={trainsToShow}
+        loading={loading}
+        displayTextFn={displayTextFn}
+      />
     </StyledHome>
   );
 };

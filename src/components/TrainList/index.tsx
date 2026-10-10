@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import type { TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
 import { TrainRow } from "../TrainRow";
+import type { TDisplayTextFunction } from "../../hooks/useTrainDestinationConfig/types";
 
 const StyledList = styled.div`
   display: flex;
@@ -24,9 +25,14 @@ const StyledUnavailableText = styled.div`
 type TTrainListProps = {
   trains: TTrainsQueryRow[];
   loading: boolean;
+  displayTextFn: TDisplayTextFunction;
 };
 
-export const TrainList = ({ trains, loading }: TTrainListProps) => {
+export const TrainList = ({
+  trains,
+  loading,
+  displayTextFn,
+}: TTrainListProps) => {
   const noDataAvailable = !loading && trains.length === 0;
 
   return (
@@ -38,7 +44,11 @@ export const TrainList = ({ trains, loading }: TTrainListProps) => {
         <StyledUnavailableText>Ei tietoja saatavilla</StyledUnavailableText>
       )}
       {trains.map((train) => (
-        <TrainRow key={train.trainNumber} train={train} />
+        <TrainRow
+          key={train.trainNumber}
+          train={train}
+          displayTextFn={displayTextFn}
+        />
       ))}
     </StyledList>
   );
