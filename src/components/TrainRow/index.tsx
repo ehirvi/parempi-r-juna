@@ -1,27 +1,81 @@
 import styled from "styled-components";
 import type { TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
+import ArrowRight from "../../assets/arrow-sm-right.svg";
 import {
   getFirstStationName,
+  getFirstStationScheduledTime,
   getLastStationName,
-  toLocalTime,
+  getLastStationScheduledTime,
 } from "../../utils/lib";
-
-export const getDisplayTextForDirection = (train: TTrainsQueryRow) => {
-  return `${getFirstStationName(train)} - ${toLocalTime(train)} - ${getLastStationName(train)}`;
-};
 
 const StyledRow = styled.div`
   display: flex;
   justify-content: center;
-  width: 100%;
+  align-items: center;
+  gap: 1rem;
   padding: 1rem 0;
-  border-bottom: 1px solid;
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 5px black;
+`;
+
+const StyledIcon = styled.img`
+  height: 30px;
+  width: 30px;
+`;
+
+const StyledDisplayText = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 type TTrainRowProps = {
   train: TTrainsQueryRow;
 };
 
+type TStationDisplayTextConfig = Record<
+  "first" | "last",
+  {
+    name: (train: TTrainsQueryRow) => string | undefined;
+    scheduledTime: (train: TTrainsQueryRow) => string | undefined;
+  }
+>;
+
+const stationDisplayTextConfig: TStationDisplayTextConfig = {
+  first: {
+    name: getFirstStationName,
+    scheduledTime: getFirstStationScheduledTime,
+  },
+  last: {
+    name: getLastStationName,
+    scheduledTime: getLastStationScheduledTime,
+  },
+};
+
+type TStationDisplayProps = TTrainRowProps & {
+  config: TStationDisplayTextConfig[keyof TStationDisplayTextConfig];
+};
+
+const StationDisplay = ({ train, config }: TStationDisplayProps) => {
+  const { name, scheduledTime } = config;
+
+  return (
+    <StyledDisplayText>
+      <span>{name(train)}</span>
+      <span>{scheduledTime(train)}</span>
+    </StyledDisplayText>
+  );
+};
+
 export const TrainRow = ({ train }: TTrainRowProps) => {
-  return <StyledRow>{getDisplayTextForDirection(train)}</StyledRow>;
+  const firstStationConfig = stationDisplayTextConfig.first;
+  const lastStationConfig = stationDisplayTextConfig.last;
+
+  return (
+    <StyledRow>
+      <StationDisplay train={train} config={firstStationConfig} />
+      <StyledIcon src={ArrowRight} />
+      <StationDisplay train={train} config={lastStationConfig} />
+    </StyledRow>
+  );
 };
