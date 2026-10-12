@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import ArrowsSwitch from "../../assets/arrows-switch.svg";
 import { ETrainStation } from "../../utils/types";
+import { Button } from "../Button";
 
 const Stack = styled.div`
   display: flex;
@@ -17,24 +18,6 @@ const StyledInput = styled.input.attrs({ type: "text", readOnly: true })`
   padding: 0.2rem;
   font-size: large;
   text-align: center;
-`;
-
-const StyledButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  color: black;
-  border-radius: 2rem;
-  box-shadow: 0px 0px 5px black;
-  background-color: white;
-  font-size: x-large;
-  transition: 125ms;
-
-  &:active {
-    color: white;
-    background-color: #c7d0dc;
-  }
 `;
 
 const StyledIcon = styled.img`
@@ -61,9 +44,9 @@ export const DestinationSwitcher = ({
   return (
     <Stack>
       <StyledInput value={destination} />
-      <StyledButton onClick={switchDestination}>
+      <Button onClick={switchDestination}>
         <StyledIcon src={ArrowsSwitch} />
-      </StyledButton>
+      </Button>
     </Stack>
   );
 };
