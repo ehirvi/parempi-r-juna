@@ -16,12 +16,21 @@ export const getLastStationName = (train: TTrainsQueryRow) => {
   return train.timeTableRows.at(-1)?.station.name.split(" ").at(0);
 };
 
-export const toLocalTime = (row: TTrainsQueryRow) => {
-  const scheduledTime = row.timeTableRows[0].scheduledTime;
-  return new Date(scheduledTime).toLocaleTimeString("fi", {
+export const toLocalTime = (time: string) => {
+  return new Date(time).toLocaleTimeString("fi", {
     hour: "2-digit",
     minute: "2-digit",
   });
+};
+
+export const getFirstStationScheduledTime = (train: TTrainsQueryRow) => {
+  const scheduledTime = train.timeTableRows.at(0)?.scheduledTime;
+  return scheduledTime ? toLocalTime(scheduledTime) : undefined;
+};
+
+export const getLastStationScheduledTime = (train: TTrainsQueryRow) => {
+  const scheduledTime = train.timeTableRows.at(-1)?.scheduledTime;
+  return scheduledTime ? toLocalTime(scheduledTime) : undefined;
 };
 
 export const toISODate = (date: Date) => {

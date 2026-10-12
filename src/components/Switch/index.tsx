@@ -14,6 +14,7 @@ const Frame = styled.div<{ $checked: boolean }>`
   box-shadow: inset 0px 0px 5px black;
   position: relative;
   background-color: ${(props) => (props.$checked ? "#77e079" : "#e55e5e")};
+  cursor: pointer;
 `;
 
 const StyledInput = styled.input.attrs({ type: "checkbox" })`
@@ -22,6 +23,7 @@ const StyledInput = styled.input.attrs({ type: "checkbox" })`
   height: 100%;
   opacity: 0;
   margin: 0;
+  cursor: pointer;
 `;
 
 const Knob = styled.span<{ $checked: boolean }>`
@@ -38,6 +40,10 @@ const Knob = styled.span<{ $checked: boolean }>`
   box-shadow: 0px 0px 5px black;
 `;
 
+const StyledLabel = styled.label`
+  font-size: medium;
+`;
+
 type TSwitchProps = {
   checked: boolean;
   label: string;
@@ -47,7 +53,7 @@ type TSwitchProps = {
 export const Switch = ({ checked, label, handleChecked }: TSwitchProps) => {
   return (
     <Stack>
-      <label>{label}</label>
+      <StyledLabel>{label}</StyledLabel>
       <Frame $checked={checked} onClick={handleChecked}>
         <StyledInput id="filter" checked={checked} />
         <Knob $checked={checked} />

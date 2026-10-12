@@ -7,6 +7,7 @@ import {
 } from "../../utils/lib";
 import ArrowLeft from "../../assets/arrow-sm-left.svg";
 import ArrowRight from "../../assets/arrow-sm-right.svg";
+import { Button } from "../Button";
 
 const StyledDatePicker = styled.div`
   display: flex;
@@ -14,6 +15,7 @@ const StyledDatePicker = styled.div`
   align-items: center;
   gap: 1rem;
   border-radius: 2rem;
+  background-color: white;
   box-shadow: 0px 0px 5px black;
   padding: 0.5rem;
 `;
@@ -25,29 +27,12 @@ const StyledInput = styled.input.attrs({ type: "text", readOnly: true })`
   padding: 0.2rem;
   font-size: large;
   text-align: center;
-`;
-
-const StyledButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  color: black;
-  border-radius: 2rem;
-  box-shadow: 0px 0px 5px black;
-  background-color: white;
-  font-size: x-large;
-  transition: 125ms;
-
-  &:active {
-    color: white;
-    background-color: #c7d0dc;
-  }
+  font-family: "Futura";
 `;
 
 const StyledIcon = styled.img`
   height: 30px;
-  height: 30px;
+  width: 30px;
 `;
 
 type TDatePickerProps = {
@@ -77,13 +62,13 @@ export const DatePicker = ({ date, setDate }: TDatePickerProps) => {
   return (
     <>
       <StyledDatePicker>
-        <StyledButton onClick={subtractDay}>
+        <Button onClick={subtractDay}>
           <StyledIcon src={ArrowLeft} />
-        </StyledButton>
+        </Button>
         <StyledInput value={textToShow}></StyledInput>
-        <StyledButton onClick={addDay}>
+        <Button onClick={addDay}>
           <StyledIcon src={ArrowRight} />
-        </StyledButton>
+        </Button>
       </StyledDatePicker>
     </>
   );

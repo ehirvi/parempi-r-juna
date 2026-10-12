@@ -6,16 +6,15 @@ const StyledList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   background-color: white;
   box-shadow: inset 0px 0px 10px black;
   width: 90%;
   height: 60dvh;
+  padding: 1rem;
+  gap: 1rem;
   overflow: scroll;
-
-  :last-child {
-    border-bottom: 0;
-  }
+  font-size: medium;
 `;
 
 const StyledUnavailableText = styled.div`
