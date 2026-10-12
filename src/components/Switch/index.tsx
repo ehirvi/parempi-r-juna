@@ -40,6 +40,10 @@ const Knob = styled.span<{ $checked: boolean }>`
   box-shadow: 0px 0px 5px black;
 `;
 
+const StyledLabel = styled.label`
+  font-size: medium;
+`;
+
 type TSwitchProps = {
   checked: boolean;
   label: string;
@@ -49,7 +53,7 @@ type TSwitchProps = {
 export const Switch = ({ checked, label, handleChecked }: TSwitchProps) => {
   return (
     <Stack>
-      <label>{label}</label>
+      <StyledLabel>{label}</StyledLabel>
       <Frame $checked={checked} onClick={handleChecked}>
         <StyledInput id="filter" checked={checked} />
         <Knob $checked={checked} />

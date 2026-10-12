@@ -27,6 +27,7 @@ const StyledInput = styled.input.attrs({ type: "text", readOnly: true })`
   padding: 0.2rem;
   font-size: large;
   text-align: center;
+  font-family: "Futura";
 `;
 
 const StyledIcon = styled.img`

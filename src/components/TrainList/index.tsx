@@ -14,6 +14,7 @@ const StyledList = styled.div`
   padding: 1rem;
   gap: 1rem;
   overflow: scroll;
+  font-size: medium;
 `;
 
 const StyledUnavailableText = styled.div`
