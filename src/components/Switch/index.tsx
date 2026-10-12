@@ -14,6 +14,7 @@ const Frame = styled.div<{ $checked: boolean }>`
   box-shadow: inset 0px 0px 5px black;
   position: relative;
   background-color: ${(props) => (props.$checked ? "#77e079" : "#e55e5e")};
+  cursor: pointer;
 `;
 
 const StyledInput = styled.input.attrs({ type: "checkbox" })`
@@ -22,6 +23,7 @@ const StyledInput = styled.input.attrs({ type: "checkbox" })`
   height: 100%;
   opacity: 0;
   margin: 0;
+  cursor: pointer;
 `;
 
 const Knob = styled.span<{ $checked: boolean }>`

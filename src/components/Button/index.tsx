@@ -12,10 +12,11 @@ const StyledButton = styled.button`
   background-color: white;
   font-size: x-large;
   transition: 100ms;
+  cursor: pointer;
 
   &:active {
     box-shadow: 0px 0px 2.5px black;
-    transform: scale(0.95);
+    transform: scale(0.9);
   }
 `;
 
