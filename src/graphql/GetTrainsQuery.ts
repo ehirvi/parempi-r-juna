@@ -17,6 +17,7 @@ type GetTrainsQuery = {
 };
 
 export type TTrainsQueryRow = GetTrainsQuery["trainsByDepartureDate"][number];
+export type TTrainStationRow = TTrainsQueryRow["timeTableRows"][number];
 
 type GetTrainsQueryVariables = {
   date: string | undefined;

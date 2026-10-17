@@ -1,14 +1,29 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import type { TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
 import ArrowRight from "../../assets/arrow-sm-right.svg";
 import {
   getFirstStationName,
   getFirstStationScheduledTime,
+  getFirstStationShortCode,
   getLastStationName,
   getLastStationScheduledTime,
+  getLastStationShortCode,
+  getMiddleStationName,
+  getMiddleStationScheduledTime,
 } from "../../utils/lib";
+import { ETrainStation } from "../../utils/types";
 
-const StyledRow = styled.div`
+const fadeInAnimation = keyframes`
+  from {
+    transform: translateY(-25%);
+  }
+  to {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+`;
+
+const StyledRow = styled.div<{ $animationIndex: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,6 +32,9 @@ const StyledRow = styled.div`
   width: 100%;
   border-radius: 1rem;
   box-shadow: 0px 0px 5px black;
+  opacity: 0;
+  animation: ${fadeInAnimation} 200ms ease-out
+    ${(props) => props.$animationIndex * 25}ms forwards;
 `;
 
 const StyledIcon = styled.img`
@@ -31,10 +49,11 @@ const StyledDisplayText = styled.div`
 
 type TTrainRowProps = {
   train: TTrainsQueryRow;
+  animationIndex: number;
 };
 
 type TStationDisplayTextConfig = Record<
-  "first" | "last",
+  "first" | "middle" | "last",
   {
     name: (train: TTrainsQueryRow) => string | undefined;
     scheduledTime: (train: TTrainsQueryRow) => string | undefined;
@@ -46,13 +65,17 @@ const stationDisplayTextConfig: TStationDisplayTextConfig = {
     name: getFirstStationName,
     scheduledTime: getFirstStationScheduledTime,
   },
+  middle: {
+    name: getMiddleStationName,
+    scheduledTime: getMiddleStationScheduledTime,
+  },
   last: {
     name: getLastStationName,
     scheduledTime: getLastStationScheduledTime,
   },
 };
 
-type TStationDisplayProps = TTrainRowProps & {
+type TStationDisplayProps = Omit<TTrainRowProps, "animationIndex"> & {
   config: TStationDisplayTextConfig[keyof TStationDisplayTextConfig];
 };
 
@@ -67,14 +90,25 @@ const StationDisplay = ({ train, config }: TStationDisplayProps) => {
   );
 };
 
-export const TrainRow = ({ train }: TTrainRowProps) => {
+export const TrainRow = ({ train, animationIndex }: TTrainRowProps) => {
   const firstStationConfig = stationDisplayTextConfig.first;
+  const middleStationConfig = stationDisplayTextConfig.middle;
   const lastStationConfig = stationDisplayTextConfig.last;
 
+  const showMiddleStation =
+    getFirstStationShortCode(train) !== ETrainStation.RIIHIMAKI &&
+    getLastStationShortCode(train) !== ETrainStation.RIIHIMAKI;
+
   return (
-    <StyledRow>
+    <StyledRow $animationIndex={animationIndex}>
       <StationDisplay train={train} config={firstStationConfig} />
       <StyledIcon src={ArrowRight} />
+      {showMiddleStation && (
+        <>
+          <StationDisplay train={train} config={middleStationConfig} />
+          <StyledIcon src={ArrowRight} />
+        </>
+      )}
       <StationDisplay train={train} config={lastStationConfig} />
     </StyledRow>
   );
