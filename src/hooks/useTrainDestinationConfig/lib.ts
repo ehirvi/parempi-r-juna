@@ -13,6 +13,16 @@ import {
   type TDestinationFilterFunction,
 } from "./types";
 
+const toDefaultFiltered = (trains: TTrainsQueryRow[]) => {
+  return trains.filter((train) => {
+    const station = train.timeTableRows.find(
+      (row) => row.station.shortCode === ETrainStation.RIIHIMAKI,
+    );
+    const isStopping = station?.trainStopping;
+    return isStopping;
+  });
+};
+
 const toFilteredByLastStation = (
   trains: TTrainsQueryRow[],
   filter: boolean,
@@ -21,7 +31,7 @@ const toFilteredByLastStation = (
     ? trains.filter(
         (train) => getLastStationShortCode(train) === ETrainStation.RIIHIMAKI,
       )
-    : trains;
+    : toDefaultFiltered(trains);
 };
 
 const toFilteredByFirstStation = (
@@ -32,7 +42,7 @@ const toFilteredByFirstStation = (
     ? trains.filter(
         (train) => getFirstStationShortCode(train) === ETrainStation.RIIHIMAKI,
       )
-    : trains;
+    : toDefaultFiltered(trains);
 };
 
 const compareScheduledTimes = (
