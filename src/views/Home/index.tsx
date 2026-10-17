@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { type TTrainsQueryRow } from "../../graphql/GetTrainsQuery";
 import { getTodayDate } from "../../utils/lib";
 import { TrainList } from "../../components/TrainList";
 import styled from "styled-components";
@@ -10,21 +9,6 @@ import { useGetTrains } from "../../hooks/useGetTrains";
 import { useTrainDestinationConfig } from "../../hooks/useTrainDestinationConfig";
 import { DestinationSwitcher } from "../../components/DestinationSwitcher";
 import { EDestinationType } from "../../hooks/useTrainDestinationConfig/types";
-
-const toSortedByScheduledTime = (trains: TTrainsQueryRow[]) => {
-  return trains.toSorted((prevTrain, nextTrain) => {
-    const prevRow = prevTrain.timeTableRows.at(0);
-    const nextRow = nextTrain.timeTableRows.at(0);
-    if (!prevRow || !nextRow) {
-      return 0;
-    }
-
-    const prevTimeInMs = Date.parse(prevRow.scheduledTime);
-    const nextTimeInMs = Date.parse(nextRow.scheduledTime);
-
-    return prevTimeInMs - nextTimeInMs;
-  });
-};
 
 const StyledHome = styled.div`
   display: flex;
@@ -46,7 +30,7 @@ export const Home = () => {
     destination,
   });
 
-  const { type, destinationText, filterFn } = destinationConfig;
+  const { type, destinationText, filterFn, sortingFn } = destinationConfig;
 
   const { trains, loading } = useGetTrains({
     date,
@@ -57,9 +41,7 @@ export const Home = () => {
     setShowOnlyFilteredRows((v) => !v);
   };
 
-  const trainsToShow = toSortedByScheduledTime(
-    filterFn(trains, showOnlyFilteredRows),
-  );
+  const trainsToShow = sortingFn(filterFn(trains, showOnlyFilteredRows));
 
   return (
     <StyledHome>

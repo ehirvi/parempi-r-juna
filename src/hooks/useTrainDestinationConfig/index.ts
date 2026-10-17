@@ -1,5 +1,6 @@
 import { ETrainStation } from "../../utils/types";
 import {
+  departureSortingFunctionByStation,
   destinationFilterFunctionByStation,
   destinationNameByStation,
   destinationTypeByStation,
@@ -17,6 +18,7 @@ export const useTrainDestinationConfig = ({
     type: destinationTypeByStation[destination],
     destinationText: destinationNameByStation[destination],
     filterFn: destinationFilterFunctionByStation[destination],
+    sortingFn: departureSortingFunctionByStation[destination],
   };
 
   return config;

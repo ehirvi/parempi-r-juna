@@ -15,8 +15,13 @@ export type TDestinationFilterFunction = (
   filter: boolean,
 ) => TTrainsQueryRow[];
 
+export type TDepartureSortingFunction = (
+  trains: TTrainsQueryRow[],
+) => TTrainsQueryRow[];
+
 export interface ITrainDestinationConfig {
   type: EDestinationType;
   destinationText: string;
   filterFn: TDestinationFilterFunction;
+  sortingFn: TDepartureSortingFunction;
 }
