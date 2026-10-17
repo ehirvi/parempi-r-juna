@@ -1,4 +1,5 @@
 import type { TTrainsQueryRow } from "../graphql/GetTrainsQuery";
+import { ETrainStation } from "./types";
 
 export const getFirstStationShortCode = (train: TTrainsQueryRow) => {
   return train.timeTableRows.at(0)?.station.shortCode;
@@ -10,6 +11,13 @@ export const getLastStationShortCode = (train: TTrainsQueryRow) => {
 
 export const getFirstStationName = (train: TTrainsQueryRow) => {
   return train.timeTableRows.at(0)?.station.name.split(" ").at(0);
+};
+
+export const getMiddleStationName = (train: TTrainsQueryRow) => {
+  return train.timeTableRows
+    .find((rows) => rows.station.shortCode === ETrainStation.RIIHIMAKI)
+    ?.station.name.split(" ")
+    .at(0);
 };
 
 export const getLastStationName = (train: TTrainsQueryRow) => {
@@ -25,6 +33,13 @@ export const toLocalTime = (time: string) => {
 
 export const getFirstStationScheduledTime = (train: TTrainsQueryRow) => {
   const scheduledTime = train.timeTableRows.at(0)?.scheduledTime;
+  return scheduledTime ? toLocalTime(scheduledTime) : undefined;
+};
+
+export const getMiddleStationScheduledTime = (train: TTrainsQueryRow) => {
+  const scheduledTime = train.timeTableRows.find(
+    (row) => row.station.shortCode === ETrainStation.RIIHIMAKI,
+  )?.scheduledTime;
   return scheduledTime ? toLocalTime(scheduledTime) : undefined;
 };
 

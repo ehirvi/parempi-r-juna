@@ -4,9 +4,14 @@ import ArrowRight from "../../assets/arrow-sm-right.svg";
 import {
   getFirstStationName,
   getFirstStationScheduledTime,
+  getFirstStationShortCode,
   getLastStationName,
   getLastStationScheduledTime,
+  getLastStationShortCode,
+  getMiddleStationName,
+  getMiddleStationScheduledTime,
 } from "../../utils/lib";
+import { ETrainStation } from "../../utils/types";
 
 const StyledRow = styled.div`
   display: flex;
@@ -34,7 +39,7 @@ type TTrainRowProps = {
 };
 
 type TStationDisplayTextConfig = Record<
-  "first" | "last",
+  "first" | "middle" | "last",
   {
     name: (train: TTrainsQueryRow) => string | undefined;
     scheduledTime: (train: TTrainsQueryRow) => string | undefined;
@@ -45,6 +50,10 @@ const stationDisplayTextConfig: TStationDisplayTextConfig = {
   first: {
     name: getFirstStationName,
     scheduledTime: getFirstStationScheduledTime,
+  },
+  middle: {
+    name: getMiddleStationName,
+    scheduledTime: getMiddleStationScheduledTime,
   },
   last: {
     name: getLastStationName,
@@ -69,12 +78,23 @@ const StationDisplay = ({ train, config }: TStationDisplayProps) => {
 
 export const TrainRow = ({ train }: TTrainRowProps) => {
   const firstStationConfig = stationDisplayTextConfig.first;
+  const middleStationConfig = stationDisplayTextConfig.middle;
   const lastStationConfig = stationDisplayTextConfig.last;
+
+  const showMiddleStation =
+    getFirstStationShortCode(train) !== ETrainStation.RIIHIMAKI &&
+    getLastStationShortCode(train) !== ETrainStation.RIIHIMAKI;
 
   return (
     <StyledRow>
       <StationDisplay train={train} config={firstStationConfig} />
       <StyledIcon src={ArrowRight} />
+      {showMiddleStation && (
+        <>
+          <StationDisplay train={train} config={middleStationConfig} />
+          <StyledIcon src={ArrowRight} />
+        </>
+      )}
       <StationDisplay train={train} config={lastStationConfig} />
     </StyledRow>
   );
