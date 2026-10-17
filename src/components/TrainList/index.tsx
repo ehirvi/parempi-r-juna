@@ -37,8 +37,12 @@ export const TrainList = ({ trains, loading }: TTrainListProps) => {
       {noDataAvailable && (
         <StyledUnavailableText>Ei tietoja saatavilla</StyledUnavailableText>
       )}
-      {trains.map((train) => (
-        <TrainRow key={train.trainNumber} train={train} />
+      {trains.map((train, index) => (
+        <TrainRow
+          key={train.trainNumber}
+          train={train}
+          animationIndex={index}
+        />
       ))}
     </StyledList>
   );
