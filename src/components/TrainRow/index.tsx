@@ -38,13 +38,14 @@ const StyledRow = styled.div<{ $animationIndex: number }>`
 `;
 
 const StyledIcon = styled.img`
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
 `;
 
 const StyledDisplayText = styled.div`
   display: flex;
   flex-direction: column;
+  font-size: smaller;
 `;
 
 type TTrainRowProps = {
