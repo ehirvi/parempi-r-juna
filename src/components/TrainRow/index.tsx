@@ -12,6 +12,8 @@ import {
   getMiddleStationScheduledTime,
 } from "../../utils/lib";
 import { ETrainStation } from "../../utils/types";
+import { useState } from "react";
+import { FullTrainInfo } from "../FullTrainInfo";
 
 const fadeInAnimation = keyframes`
   from {
@@ -27,24 +29,33 @@ const StyledRow = styled.div<{ $animationIndex: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   gap: 1rem;
   padding: 1rem 0;
   width: 100%;
   border-radius: 1rem;
   box-shadow: 0px 0px 5px black;
+  cursor: pointer;
   opacity: 0;
   animation: ${fadeInAnimation} 200ms ease-out
     ${(props) => props.$animationIndex * 25}ms forwards;
 `;
 
+const RowContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const StyledIcon = styled.img`
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
 `;
 
 const StyledDisplayText = styled.div`
   display: flex;
   flex-direction: column;
+  font-size: smaller;
 `;
 
 type TTrainRowProps = {
@@ -91,6 +102,7 @@ const StationDisplay = ({ train, config }: TStationDisplayProps) => {
 };
 
 export const TrainRow = ({ train, animationIndex }: TTrainRowProps) => {
+  const [rowExpanded, setRowExpanded] = useState(false);
   const firstStationConfig = stationDisplayTextConfig.first;
   const middleStationConfig = stationDisplayTextConfig.middle;
   const lastStationConfig = stationDisplayTextConfig.last;
@@ -100,16 +112,22 @@ export const TrainRow = ({ train, animationIndex }: TTrainRowProps) => {
     getLastStationShortCode(train) !== ETrainStation.RIIHIMAKI;
 
   return (
-    <StyledRow $animationIndex={animationIndex}>
-      <StationDisplay train={train} config={firstStationConfig} />
-      <StyledIcon src={ArrowRight} />
-      {showMiddleStation && (
-        <>
-          <StationDisplay train={train} config={middleStationConfig} />
-          <StyledIcon src={ArrowRight} />
-        </>
-      )}
-      <StationDisplay train={train} config={lastStationConfig} />
+    <StyledRow
+      onClick={() => setRowExpanded((v) => !v)}
+      $animationIndex={animationIndex}
+    >
+      <RowContent>
+        <StationDisplay train={train} config={firstStationConfig} />
+        <StyledIcon src={ArrowRight} />
+        {showMiddleStation && (
+          <>
+            <StationDisplay train={train} config={middleStationConfig} />
+            <StyledIcon src={ArrowRight} />
+          </>
+        )}
+        <StationDisplay train={train} config={lastStationConfig} />
+      </RowContent>
+      {rowExpanded && <FullTrainInfo trainStops={train.timeTableRows} />}
     </StyledRow>
   );
 };
